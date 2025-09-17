@@ -24,7 +24,7 @@ int main(){
     printf("Stack: %p\n\r",&stack); 
     printf("Main Function: %p\n\r",&main);
     printf("LibC Function: %p\n\r",&printf);
-    printf("Mmap: %p\n\r",&stack);
+    printf("Mmap: %p\n\r",&mmap);
 
     pid = fork();
 
