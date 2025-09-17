@@ -6,8 +6,8 @@
 #define COMMAND_SIZE 64
 
 int data = 10;
-int BSS;
-char STR[] = "Text";
+int bss;
+char str[] = "Text";
 
 
 int main(){
@@ -18,8 +18,8 @@ int main(){
     int *mmap = malloc(COMMAND_SIZE);
     
     printf("Data: %p\n\r",&data);
-    printf("BSS: %p\n\r",&BSS);
-    printf("Str: %p\n\r",&STR); 
+    printf("BSS: %p\n\r",&bss);
+    printf("Str: %p\n\r",&str); 
     printf("Heap: %p\n\r",&heap); 
     printf("Stack: %p\n\r",&stack); 
     printf("Main Function: %p\n\r",&main);
@@ -28,10 +28,10 @@ int main(){
 
     pid = fork();
 
-    if (pid != 0) { // Parent code
+    if (pid != 0) { 
         wait(&status);
     }
-    else { // Child code
+    else { 
         char pid_str[COMMAND_SIZE];
         snprintf(pid_str, sizeof(pid_str), "%d", getppid());
 
