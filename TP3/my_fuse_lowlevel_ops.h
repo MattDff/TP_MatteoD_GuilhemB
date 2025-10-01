@@ -5,11 +5,11 @@
 typedef uint64_t fuse_ino_t;
 typedef struct fuse_req *fuse_req_t;
 
-struct fuse_lowlevel_ops {
-   void (*lookup) (fuse_req_t req, fuse_ino_t parent, const char *name);
+struct my_fuse_lowlevel_ops {
+   void (*lookup) (fuse_req_t req, fuse_ino_t parent, const char *fi);
 
 
-   void (*getattr) (fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi);
+   void (*getattr) (fuse_req_t req, fuse_ino_t ino, const char *name);
 
 
    void (*readdir) (fuse_req_t req, fuse_ino_t ino, size_t size, off_t off, struct fuse_file_info *fi);
