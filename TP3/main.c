@@ -5,7 +5,6 @@
 #include <stdio.h> 
 #include <fuse/fuse_lowlevel.h>
 
-#include "my_fuse_lowlevel_ops.h"
 #include "tosfs.h"
 
 void showFileSystemInfos(const char *filename) { 
@@ -24,32 +23,29 @@ void showFileSystemInfos(const char *filename) {
     close(fd); 
 }
 
-void my_getattr(fuse_req_t req, fuse_ino_t ino, const char *fi){
-    int fd = open(fi, O_RDONLY); 
-    struct stat sb; 
-    fstat(fd, &sb); 
-    void *mapped = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0); 
-    struct tosfs_inode *fs = (struct tosfs_inode *)mapped; 
-    printf("File info:\n"); 
-    printf("Inode number: %d\n", fs->inode); 
-    printf("Block number for data: %d\n", fs->block_no); 
-    printf("User id: %d\n", fs->uid);
-    printf("Group id: %d\n", fs->gid);
-    printf("Mode: %d\n", fs->mode);
-    printf("Permission: %d\n", fs->perm);
-    printf("Size: %d\n", fs->size);
-    printf("Number of hard link: %d\n", fs->nlink);
-    munmap(mapped, sb.st_size); 
-    close(fd); 
+#include <fuse/fuse_lowlevel.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <errno.h>
+
+void my_getattr(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi) {
+    struct stat st;
+    memset(&st, 0, sizeof(st));
+    // To do
 }
 
-static struct my_fuse_lowlevel_ops hello_ll_oper = {
-	.lookup		= NULL,
-	.getattr	= my_getattr,
-	.readdir	= NULL,
-	.read		= NULL,
-	.write		= NULL,
-    .create     = NULL,
+
+
+
+static struct fuse_lowlevel_ops my_ops = {
+    .getattr	= my_getattr,
+	/*
+    .readdir    = my_readdir,
+    .lookup     = my_lookup,
+    .read       = myread,
+    .create     = mycreate,
+    .write      = my_write,
+    */
 };
 
 int main(int argc, char *argv[])
@@ -63,8 +59,8 @@ int main(int argc, char *argv[])
 	    (ch = fuse_mount(mountpoint, &args)) != NULL) {
 		struct fuse_session *se;
 
-		se = fuse_lowlevel_new(&args, &hello_ll_oper,
-				       sizeof(hello_ll_oper), NULL);
+		se = fuse_lowlevel_new(&args, &my_ops,
+				       sizeof(my_ops), NULL);
 		if (se != NULL) {
 			if (fuse_set_signal_handlers(se) != -1) {
 				fuse_session_add_chan(se, ch);
@@ -74,7 +70,7 @@ int main(int argc, char *argv[])
 			}
 			fuse_session_destroy(se);
 		}
-		fuse_unmount(mountpoint);
+		fuse_unmount(mountpoint, ch);
 	}
 	fuse_opt_free_args(&args);
 
