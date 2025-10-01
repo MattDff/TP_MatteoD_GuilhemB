@@ -23,3 +23,14 @@ void showFileSystemInfos(const char *filename) {
     close(fd); 
 }
 
+void my_getattr(){};
+
+void my_readdir(){};
+
+void my_lookup(){};
+
+void my_read(){};
+
+void my_create(){};
+
+void my_write(){};

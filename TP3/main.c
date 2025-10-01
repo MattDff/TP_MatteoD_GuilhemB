@@ -3,12 +3,12 @@
 #include <fuse/fuse_lowlevel.h>
 
 static struct fuse_lowlevel_ops hello_ll_oper = {
-	.lookup		= NULL,
-	.getattr	= NULL,
-	.readdir	= NULL,
-	.open		= NULL,
-	.read		= NULL,
-    .create     = NULL,
+	.lookup		= my_lookup,
+	.getattr	= my_getattr,
+	.readdir	= my_readdir,
+	.read		= my_read,
+	.write		= my_write,
+    .create     = my_create,
 };
 
 int main(int argc, char *argv[])

@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "alloc_sec.h": "c",
-        "errno.h": "c"
+        "errno.h": "c",
+        "fuse_lowlevel.h": "c"
     }
 }
