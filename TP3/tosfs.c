@@ -5,6 +5,7 @@
 #include <stdio.h> 
 
 #include "tosfs.h"
+#include "fuse_lowlevel_ops.h"
 
 void showFileSystemInfos(const char *filename) { 
     int fd = open(filename, O_RDONLY); 
