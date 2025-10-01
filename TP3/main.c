@@ -28,10 +28,24 @@ void showFileSystemInfos(const char *filename) {
 #include <string.h>
 #include <errno.h>
 
-void my_getattr(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi) {
+static void my_getattr(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi){
     struct stat st;
     memset(&st, 0, sizeof(st));
-    // To do
+
+    /* Handle the root */
+    if (ino == TOSFS_ROOT_INODE) {
+        st.st_ino = ino;
+        st.st_mode = S_IFDIR | 0755;
+        st.st_nlink = 2;
+        st.st_uid = getuid();
+        st.st_gid = getgid();
+        st.st_size = 4096; 
+        st.st_mtime = st.st_atime = st.st_ctime = time(NULL);
+        fuse_reply_attr(req, &st, 1.0);
+        return;
+    }
+
+    fuse_reply_err(req, ENOENT);
 }
 
 
