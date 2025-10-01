@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "alloc_sec.h": "c"
+        "alloc_sec.h": "c",
+        "errno.h": "c"
     }
 }

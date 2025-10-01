@@ -53,3 +53,7 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+
+# adding the test for TP3
+TP3/test
