@@ -17,6 +17,11 @@ typedef struct shmseg
    long result;
 } segment;
 
+typedef struct seg_test   //A modifier avec site favoris
+{
+   int state; //Si state=0 => libre, sinon occupé
+} 
+
 #define segsize sizeof(segment)
 
 void init_rand();
