@@ -13,17 +13,17 @@ void init(int shmid, int semid, segment* seg){
         perror("shmget");
         exit(EXIT_FAILURE);
     }
-
+    printf("%d\n",shmid);
     if ((semid=semget(cle,3,0)) == -1){
         perror("semget");
         exit(EXIT_FAILURE);
     }
-
+    printf("%d\n",semid);
     if ((seg = (segment *) shmat(shmid, NULL, 0)) ==  -1) {
         perror("shmat");
         exit(EXIT_FAILURE);
     }
-
+    printf("%d\n",seg);
     init_rand();
 }
 
