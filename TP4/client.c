@@ -12,8 +12,6 @@
 struct sembuf sop;
 
 void init(int shmid, int semid, segment* seg){
-    
-
     if ((shmid=shmget(cle,segsize,0))){
         perror("shmget");
     }
@@ -28,7 +26,6 @@ void init(int shmid, int semid, segment* seg){
 int main(int argc, char *argv[]){
     int shmid, semid;
     segment* seg;
-    struct shmseg seg;
     init(shmid,semid,seg);
     return 0;
 }
